@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+    <title>Success | TheShop</title>
+    <link rel="stylesheet" type="text/css" href="/dist/css/custom.min.css"/>
+    <script src="/dist/css/bootstrap.min.js"></script>
+</head>
+<body layout:fragment="content" th:remove="tag">
+    <div class="mt-5"></div>
+    <div class="container mt-5">
+        <div class="row mt-5">
+            <h2 class="mt-5">Successfully added the product to your cart!!!</h2>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <a href="/product/all" class="btn btn-primary ml-auto w-50">Go to products</a>
+            </div>
+            <div class="col-md-6">
+                <a href="/cart" class="btn btn-primary mr-auto w-50">Go to cart</a>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+    <title>Your Orders | TheShop</title>
+</head>
+<body layout:fragment="content" th:remove="tag">
+<br>
+<br>
+<br>
+<div class="container" th:each="entry : ${orderWithOrderStatus}">
+    <div class="row" >
+
+        <div class=" col-md-6 border">
+            <a th:href="@{/order(id=${entry?.key?.id})}" th:text="${entry?.key?.id}"></a>
+        </div>
+
+        <div class=" col-md-6 border">
+            <a th:text="'Last OrderStatus: \'' + ${entry?.value?.name} + '\' at ' + ${entry?.value?.time}"></a>
+        </div>
+    </div>
+</div>
+<div class="container" th:if="${orderWithOrderStatus.empty}">
+    <div class="row">
+        <h1>You haven't ordered anything</h1>
+        <a href="/cart" class="btn btn-primary btn-lg ms-auto me-auto w-25">Go to cart</a>
+    </div>
+</div>
+</body>
+</html>

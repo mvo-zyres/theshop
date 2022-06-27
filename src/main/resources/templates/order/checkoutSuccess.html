@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+    <head>
+        <title>Success | TheShop</title>
+    </head>
+    <body layout:fragment="content" th:remove="tag">
+        <br><br><br>
+        <div class="container">
+            <h1 class="fs-1">Success, your order was created!</h1>
+            <h1 class="fs-2">Thank you for your order!</h1>
+            <a href="/product/all" class="btn btn-primary">Continue shopping</a><a th:href="'/order/all?id=' + ${user?.id}" class="btn btn-primary">View all your orders</a>
+        </div>
+    </body>
+</html>

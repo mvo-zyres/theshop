@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+    <title>Checkout | TheShop</title>
+</head>
+    <body layout:fragment="content" th:remove="tag">
+        <div class="mt-5"></div>
+        <div class="container mt-5">
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table table-hover ">
+                        <thead>
+                        <tr>
+                            <th scope="col">Number</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Tax</th>
+                            <th scope="col">Price</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="product : ${user?.cart?.products}">
+                            <td >1x</td>
+                            <td th:text="${product?.name}"></td>
+                            <td th:text="${product?.tax} + '%'"></td>
+                            <td th:text="${product?.price} + ' credits'"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th>Checkout</th>
+                                <td th:text="'Credits now: '"></td>
+                                <td th:text="${user?.credits} + ' credits'"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Total price: </td>
+                                <td><strong th:text="'- ' + ${totalPrice} + ' credits'"></strong></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td th:text="'Credits After: '"></td>
+                                <td th:text="'= ' + ${user?.credits.subtract(totalPrice)} + ' credits'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <form th:action="@{/order/checkout.post}" method="post">
+                    <div class="row">
+                        <div class="col" >
+                            <label for="billing">Billingaddress: </label>
+                            <select name="billing" id="billing" >
+                                <div th:each="billing : ${billinglist}">
+                                <option th:value="${billing.addressId}" th:text="${billing.getDisplay()}"></option>
+                                </div>
+                            </select><br>
+                            <label for="same">Send to billingaddress</label>
+                            <input type="checkbox" id="same" name="same" value=true><br>
+                            <label for="shipping">Shippingaddress: </label>
+                            <select name="shipping" id="shipping">
+                                <div th:each="shipping : ${shippinglist}">
+                                <option th:value="${shipping.addressId}" th:text="${shipping.getDisplay()}"></option>
+                                </div>
+                            </select>
+                        </div>
+                        <div class="col" th:if="${user?.credits >= totalPrice}">
+                            <button type="submit" class="btn btn-warning w-100">Complete purchase</button>
+                        </div>
+                        <div class="col" th:if="${user?.credits < totalPrice}">
+                            <p>Not enough credits!!! Go Recharge: <a th:href="@{/credits/recharge}" class="btn btn-secondary">Recharge credits</a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

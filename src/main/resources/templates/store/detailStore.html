@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+<head>
+    <title>Shop Admin Interface | TheShop</title>
+</head>
+<body layout:fragment="contentt" th:remove="tag">
+<div class="container">
+    <h2 th:text="'Store: ' + ${store?.name}"></h2>
+    <br>
+    <form method="post" th:action="@{/management/store/edit.post}">
+        <input type="hidden" th:value="${store?.id}" name="storeId">
+        <div class="form-group row">
+            <label for="name">Name</label>
+            <input type="text" name="name" minlength="2" id="name" class="form-control" th:value="${store?.name}">
+        </div>
+        <div class="form-group row">
+            <label for="tax">Tax</label>
+            <input type="text" name="tax" id="tax" class="form-control" required>
+        </div>
+        <br>
+        <input type="submit" class="btn btn-primary" value="Submit">
+    </form>
+    <br><br>
+    <h3>Categories</h3>
+    <a th:href="@{/management/category/add}" class="btn btn-secondary"><span>&plus;</span></a><br><br>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Store</th>
+            <th scope="col">Amount of products</th>
+        </tr>
+        </thead>
+        <tbody class="mn">
+        <tr th:if="${store?.categories.empty}">
+            <td colspan="2"> No category for this store available</td>
+        </tr>
+        <tr th:each="category : ${store?.categories}">
+            <td><span th:text="${category?.id}"> ID </span></td>
+            <td><span th:text="${category?.name}"> Name </span></td>
+            <td><span th:text="${category?.store?.name} + ': ' + ${category?.store?.id}"> Store </span></td>
+            <td th:unless="${category?.products == null} and ${#lists.isEmpty(category?.products)}">
+                <span th:text="${category?.products.size()}"> Amount of products </span>
+            </td>
+            <td th:if="${category?.products == null} or ${category.products.isEmpty()}"><span th:text="'0'"> Amount of products </span></td>
+            <td><span><a th:href="'/management/category/detail?id=' + ${category?.id}" class="btn btn-primary">Details</a></span></td>
+            <td><span><a th:href="'/management/category/delete?id=' + ${category?.id}" class="btn btn-primary">Delete</a></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

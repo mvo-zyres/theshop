@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+    <head>
+        <meta charset="UTF-8">
+        <title>All Privileges</title>
+    </head>
+    <body layout:fragment="contentt" th:remove="tag">
+        <div class="container-fluid">
+
+            <h1>All Privileges</h1>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${allprivileges.empty}">
+                        <td colspan="2"> No privileges available</td>
+                    </tr>
+                    <tr th:each="privilege : ${allprivileges}">
+                        <td><span th:text="${privilege?.id}"> ID </span></td>
+                        <td><span th:text="${privilege?.name}"> Name </span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

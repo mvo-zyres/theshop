@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+<head>
+    <title>Shop Admin Interface | TheShop</title>
+</head>
+<body layout:fragment="contentt" th:remove="tag">
+<div class="container-fluid">
+    <h1>All orders</h1>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">OrderNumber</th>
+            <th scope="col">User</th>
+            <th scope="col">Amount of products</th>
+            <th scope="col">OrderStatus</th>
+        </tr>
+        </thead>
+        <tbody class="mn">
+        <tr th:if="${allOrders.empty}">
+            <td colspan="5"> No order available</td>
+        </tr>
+        <tr th:each="order : ${allOrders}">
+            <td><span th:text="${order?.id}"> ID </span></td>
+            <td><span th:text="${order?.orderNumber}"> OrderNumber </span></td>
+            <td><span th:text="${order?.user?.username} + ': ' + ${order?.user?.id}"> User</span></td>
+            <td><span th:text="${order?.orderItems?.size()}">Amount of products</span></td>
+            <td><div th:each="orderStatus : ${order?.orderStatuses}"><span th:text="'- ' + ${orderStatus?.name}"></span></div><a th:href="'/management/order/addOrderStatus?orderId=' + ${order.id}" class="btn btn-secondary">&plus;</a></td>
+            <td><span><a th:href="'/management/order/detail?id=' + ${order?.id}" class="btn btn-primary">Details</a></span></td>
+            <td><span><a th:href="'/management/order/delete?id=' + ${order?.id}" class="btn btn-primary">Delete</a></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

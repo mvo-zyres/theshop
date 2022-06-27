@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+    <head>
+        <title>Shop Admin Interface | TheShop</title>
+    </head>
+    <body layout:fragment="contentt" th:remove="tag">
+        <div class="container">
+            <h3 th:text="'Do you really want to delete the category with ID ' + ${category?.id} + '?'"></h3>
+            <a href="/" class="btn btn-primary">No</a><br>
+            <form th:action="@{/management/category/delete.post}" method="post">
+                <input type="hidden" name="categoryId" id="categoryId" th:value="${category?.id}">
+                <input type="submit" value="Yes" class="btn btn-danger">
+            </form>
+        </div>
+    </body>
+</html>

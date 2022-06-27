@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+    <head>
+        <title>Home | TheShop</title>
+        <link rel="stylesheet" type="text/css" href="/dist/css/custom.min.css"/>
+        <script src="/dist/js/bootstrap.min.js"></script>
+    </head>
+    <body layout:fragment="content" th:remove="tag">
+        <nav class="navbar navbar-expand-md navbar-light bg-secondary">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item" sec:authorize="hasAuthority('AUTHORITYMANAGEMENT_PRIVILEGE')">
+                            <a class="nav-link" href="/authorities/privilege/all">All privileges</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAuthority('AUTHORITYMANAGEMENT_PRIVILEGE')">
+                            <a class="nav-link" href="/authorities/role/all">All roles</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAuthority('USERMANAGEMENT_PRIVILEGE')">
+                            <a class="nav-link" href="/user/all">All users</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAuthority('STOREMANAGEMENT_PRIVILEGE')">
+                            <a class="nav-link" href="/management/store/all">All stores</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAuthority('STOREMANAGEMENT_PRIVILEGE')">
+                            <a class="nav-link" href="/management/category/all">All categories</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAuthority('STOREMANAGEMENT_PRIVILEGE')">
+                            <a class="nav-link" href="/management/product/all">All products</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAuthority('STOREMANAGEMENT_PRIVILEGE')">
+                            <a class="nav-link" href="/management/productType/all">All product types</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAuthority('STOREMANAGEMENT_PRIVILEGE')">
+                            <a class="nav-link" href="/management/order/all">All orders</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="body">
+            <th:block layout:fragment="contentt">
+                <!-- body goes here -->
+            </th:block>
+        </div>
+    </body>
+</html>

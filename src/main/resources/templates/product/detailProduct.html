@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+<head>
+    <title>Shop Admin Interface | TheShop</title>
+</head>
+<body layout:fragment="contentt" th:remove="tag">
+<div class="container">
+    <h2 th:text="'Product: ' + ${product?.name}"></h2>
+    <br>
+    <form method="post" th:action="'/management/product/edit.post?' + ${_csrf?.parameterName} + '=' + ${_csrf.token}" enctype="multipart/form-data">
+        <input type="hidden" th:value="${product?.id}" name="productId">
+        <div class="form-group row">
+            <label for="name">Name</label>
+            <input type="text" name="name" minlength="2" maxlength="16" id="name" class="form-control" th:value="${product?.name}" required>
+        </div>
+        <div class="form-group row">
+            <label for="description">Description</label>
+            <textarea type="text" name="description" id="description" class="form-control" th:text="${product?.description}" th:value="${product?.description}" required></textarea>
+        </div>
+        <div class="form-group row">
+            <label for="price">Price</label>
+            <input type="text" name="price" id="price" class="form-control" th:value="${product?.price}" required>
+        </div>
+        <div class="form-group row">
+            <label for="tax">Tax</label>
+            <input type="text" name="tax" th:value="${product?.tax}" id="tax" class="form-control">
+        </div>
+        <div class="form-group row">
+            <label for="img">Main Image</label>
+            <img th:src="${MinioURL}+${product.img}+'.png'" style="max-height: 200px; max-width: 200px;" class="img-fluid m-2" alt="Main Image">
+            <input type="file" accept=".png" name="img" id="img" class="form-control" >
+        </div>
+        <div class="form-group row">
+            <label for="images">Additional Images (Check the box to delete a specific, and upload other images)</label>
+            <div class="col-2" th:each="image : ${product?.images}">
+                <input type="checkbox" th:value="${image}" th:content="${image}" name="deleteImages">
+                <img th:src="${MinioURL}+${image}+'.png'" style="max-height: 200px; max-width: 200px;" class="img-fluid m-2" alt="Alt Image">
+            </div>
+            <input type="file" accept=".png" name="images" id="images" multiple class="form-control">
+        </div>
+        <div class="form-group row">
+            <label for="tags">Tags</label>
+            <input type="text" name="tags" id="tags" class="form-control" th:value="${tags}">
+        </div>
+        <div class="form-group row">
+            <label for="productType">Product Type</label>
+            <select name="productTypeId" id="productType" required class="form-control">
+                <option th:each="productType : ${productTypes}" th:selected="${productType.id == product.id}" th:value="${productType?.id}" th:text="${productType?.type}"></option>
+            </select>
+        </div>
+        <div class="form-group row">
+            <label>Categories (Select at least one)</label>
+            <div th:each="categoryBooleanMap : ${categoryBooleanMap}" class="form-control">
+                <input type="checkbox" name="categoryIds" th:value="${categoryBooleanMap?.key?.id}" th:checked="${categoryBooleanMap?.value}"><span th:text="${categoryBooleanMap?.key?.name}"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label>Recommended</label>
+            <input type="checkbox" name="recommended" value="TRUE" class="form-control" th:checked="${product?.recommended}" style="appearance:checkbox">
+        </div>
+        <br>
+        <input type="submit" class="btn btn-primary" value="Submit">
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+    <head>
+        <meta charset="UTF-8">
+        <title>Error..</title>
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+    </head>
+    <body layout:fragment="content" th:remove="tag">
+        <h1 class="mt-5">We couldn't find the page you were looking for! [NOT_FOUND | 404]</h1>
+        <button class="btn btn-primary mt-1" onclick="goBack()">Go back</button>
+    </body>
+</html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+    <head>
+        <meta charset="UTF-8">
+        <title>Error..</title>
+    </head>
+    <body layout:fragment="content" th:remove="tag">
+        <h1 class="mt-5">Nothing went wrong!</h1>
+        <h2 class="mt-1">Go back and try again.</h2>
+        <button class="btn btn-primary mt-1" onclick="window.history.back()">Go back</button>
+    </body>
+</html>

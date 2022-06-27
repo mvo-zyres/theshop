@@ -1,0 +1,70 @@
+version: '3'
+services:
+  theshop:
+    container_name: theshop
+    restart: always
+    depends_on:
+      - theshop_database
+      - theshop_minio
+      - theshop_typesense
+    image: mv0zyres/theshop:latest
+    ports:
+      - "8443:8443"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://theshop_database:5432/theshop
+      - SPRING_DATASOURCE_USERNAME=theshop
+      - SPRING_DATASOURCE_PASSWORD=12345678
+      - THESHOP_TYPESENSE_URL=http://theshop_typesense:8108
+      - THESHOP_MINIO_INNERHOSTNAME=theshopminio
+  theshop_database:
+    image: postgres:13-alpine
+    ports:
+      - "5432:5432"
+    container_name: theshop_database
+    environment:
+      - POSTGRES_USER=theshop
+      - POSTGRES_PASSWORD=12345678
+  theshop_pgadmin:
+    container_name: "theshop_pgadmin"
+    image: "dpage/pgadmin4"
+    ports:
+      - "666:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=theshop@theshop.com
+      - PGADMIN_DEFAULT_PASSWORD=12345678
+  theshop_minio:
+    container_name: "theshopminio"
+    image: minio/minio
+    ports:
+      - "9001:9001"
+      - "9000:9000"
+    volumes:
+      - ./docker/data/minio/data:/data
+    environment:
+      - MINIO_ROOT_USER=theshop
+      - MINIO_ROOT_PASSWORD=12345678
+    command:
+      - server
+      - --console-address
+      - :9001
+      - /data
+  theshop_typesense:
+    container_name: "theshop_typesense"
+    image: typesense/typesense:0.21.0
+    ports:
+      - "8108:8108"
+    volumes:
+      - /tmp/typesense-data:/data
+    command:
+      - --data-dir
+      - /data
+      - --api-key=12345678
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8108/health" ]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+
+
+volumes:
+  miniodata:

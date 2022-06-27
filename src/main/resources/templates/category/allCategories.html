@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+    <head>
+        <title>Shop Admin Interface | TheShop</title>
+    </head>
+    <body layout:fragment="contentt" th:remove="tag">
+        <div class="container-fluid">
+            <h1>All categories</h1>
+            <a th:href="@{/management/category/add}" class="btn btn-secondary"><span>&plus;</span></a><br>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Mapping</th>
+                    <th scope="col">Store</th>
+                    <th scope="col">Amount of products</th>
+                </tr>
+                </thead>
+                <tbody class="mn">
+                <tr th:if="${allCategories.empty}">
+                    <td colspan="2"> No category available</td>
+                </tr>
+                <tr th:each="category : ${allCategories}">
+                    <td><span th:text="${category?.id}"> ID </span></td>
+                    <td><span th:text="${category?.name}"> Name </span></td>
+                    <td><span th:text="'/' + ${category?.url}"> Mapping </span></td>
+                    <td><span th:text="${category?.store?.name} + ': ' + ${category?.store?.id}"> Store </span></td>
+                    <td><span th:text="${category?.products?.size()}">Amount of products</span></td>
+                    <td><span><a th:href="'/management/category/detail?id=' + ${category?.id}" class="btn btn-primary">Details</a></span></td>
+                    <td><span><a th:href="'/management/category/delete?id=' + ${category?.id}" class="btn btn-primary">Delete</a></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

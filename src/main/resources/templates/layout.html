@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="/dist/css/custom.min.css"/>
+        <script src="/dist/js/bootstrap.bundle.js"></script>
+<!--
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+-->
+        <title></title>
+    </head>
+    <body>
+        <div class="header">
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/">TheShop</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/product/all">All Products</a>
+                            </li>
+                            <li class="nav-item" th:each="category : ${categories}">
+                                <a class="nav-link" th:href="'/category/' + ${category?.url}" th:text="${category?.name}"></a>
+                            </li>
+                            <!--<li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarCategoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Categories
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li th:each="category : ${categories}"><a class="dropdown-item" th:href="'/category?id=' + ${category?.id}" th:text="${category?.name}" th:alt="${category?.name}"></a></li>
+
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                </ul>
+                            </li>-->
+                        </ul>
+                        <form class="d-flex ml-2 w-25" th:action="@{/product/search}" method="get">
+                            <input class="form-control me-2" type="search" name="value" placeholder="Search" th:value="${search}" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                        <ul class="navbar-nav mr-2">
+                            <li class="nav-item">
+                                <div sec:authorize="hasAuthority('USERMANAGEMENT_PRIVILEGE') || hasAuthority('AUTHORITYMANAGEMENT_PRIVILEGE') || hasAuthority('STOREMANAGEMENT_PRIVILEGE')">
+                                    <a href="/management" class="nav-link"><img style="height: 35px" src="/files/managementIcongray.png" alt="Management"></a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarProfileDropDown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <buttton>
+                                        <img style="height: 35px" src="/files/profileIcongray.png" alt="Profile">
+                                    </buttton>
+                                </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarProfileDropDown">
+                                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#profileModal">Profile</button></li>
+                                        <li><a class="dropdown-item" href="/credits/recharge">Credits</a></li>
+                                        <li><a href="/order/all" class="dropdown-item">Orders</a></li>
+                                        <li><a href="/logout" class="dropdown-item">Logout</a></li>
+                                    </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/cart/" class="nav-link"><img style="height: 35px" src="/files/warenkorbgray.png" alt="Cart"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!--  Push content down -->
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                <div class="container-fluid">
+                        <a>
+                            <buttton>
+                                <img style="height: 50px" src="/files/profileIcongray.png" alt="Profile">
+                            </buttton>
+                        </a>
+                </div>
+            </nav>
+        </div>
+
+        <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="profileModalLabel">Profile</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#shippingAddressModal">Shipping Addresses</button>
+                        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#billingAddressModal">Billing Addresses</button>
+                        <form method="post" class="m-2" th:action="@{/user/edit.post}">
+                            <input type="hidden" name="id" id="id" th:value="${user?.id}">
+                            <input type="hidden" name="enabled" id="enabled" th:value="${user?.enabled}">
+                            <input type="hidden" name="roleId" th:value="${user?.role?.id}">
+
+                            <div class="form-group row">
+                                <label for="username">Username</label>
+                                <input class="form-control" type="text" readonly="readonly" id="username" placeholder="Your username.." name="username" th:value="${user?.username}">
+                            </div>
+                            <div class="form-group row">
+                                <label for="firstname">Firstname</label>
+                                <input class="form-control" type="text" readonly="readonly" name="firstname" placeholder="Your first name.." id="firstname" th:value="${user?.firstname}">
+                            </div>
+                            <div class="form-group row">
+                                <label for="lastname">Lastname</label>
+                                <input class="form-control" type="text" readonly="readonly" name="lastname" placeholder="Your last name.." id="lastname" th:value="${user?.lastname}">
+                            </div>
+                            <div class="form-group row">
+                                <label for="email">E-Mail</label>
+                                <input class="form-control" type="email" readonly="readonly" name="email" placeholder="Your email address.." id="email" th:value="${user?.email}">
+                            </div>
+                            <!--<div class="form-group row">
+                                <label>Address</label>
+                                <textarea class="form-control" th:text="${user?.address}" readonly="readonly" name="address" id="address" th:value="${user?.address}"></textarea>
+                            </div>-->
+                            <!--<div class="form-group row">
+                            <label id="lfp" for="password">
+                                Password
+                            </label>
+                            <input class="form-control" type="password" id="password" name="password" placeholder="Your password.." th:value="${user?.password}" readonly="readonly">
+                            </div>-->
+                            <div class="form-group row">
+                                <label for="img">Profile Image Source (URL)</label>
+                                <input class="form-control" type="url" id="img" name="img" th:value="${user?.img}" placeholder="Your profile image as a url.." readonly="readonly">
+                            </div>
+                            <br>
+                            <div class="row"><h3>Credits: </h3><h2 th:text="${user?.credits}"></h2></div>
+                            <button id="submit" type="submit" class="btn btn-primary" onclick="submit()"  style="display: none;">Submit</button>
+                        </form>
+                        <button id="edit" class="btn btn-secondary" onclick="edit()" style="display: inline-block">Edit Profile</button>
+                        <form th:action="@{/user/delete.post}" method="post">
+                            <input type="hidden" name="userId" id="userId" th:value="${user?.id}">
+                            <input type="submit" value="Delete Profile" class="btn btn-danger">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <a th:href="@{/logout}"><button class="btn btn-warning">Logout</button></a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="back()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="billingAddressModal" tabindex="-1" aria-labelledby="billingAddressModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="billingAddressModalLabel">Billing Address</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/user/billingAddress/add.post}" method="post">
+                            <div class="form-group row">
+                                <label>Firstname</label>
+                                <input type="text" required name="firstname" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Lastname</label>
+                                <input type="text" required name="lastname" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Address Line 1</label>
+                                <input type="text" required name="line1" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Address Line 2</label>
+                                <input type="text" name="line2" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Address Line 3</label>
+                                <input type="text" name="line3" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>City</label>
+                                <input type="text" required name="city" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Zip/Postcode</label>
+                                <input type="text" required name="zipOrPostcode" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Country/Province</label>
+                                <input type="text" required name="countryProvince" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Country</label>
+                                <input type="text" required name="country" class="form-control">
+                            </div>
+                            <input type="hidden" name="userId" th:value="${user?.id}">
+                            <input type="submit" value="Add Billingaddress" class="btn btn-secondary mt-2">
+                        </form>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/user/billingAddress/delete.post}" method="post">
+                            <div class="form-group row">
+                                <select name="addressId" id="billingaddressselect" required class="form-control">
+                                    <div th:each="billingAddress : ${user?.billingAddresses}">
+                                        <div th:if="${billingAddress?.addressId} != ${user?.defaultBillingAddress?.addressId}">
+                                            <option th:value="${billingAddress?.addressId}" th:text="${billingAddress.getDisplay()}"></option>
+                                        </div>
+                                    </div>
+                                </select>
+                            </div>
+                            <input type="hidden" name="userId" th:value="${user?.id}">
+                            <input type="submit" value="Delete Billingaddress" class="btn btn-danger">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="back()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="shippingAddressModal" tabindex="-1" aria-labelledby="shippingAddressModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="shippingAddressModalLabel">Shipping Address</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/user/shippingAddress/add.post}" method="post">
+                            <div class="form-group row">
+                                <label>Firstname</label>
+                                <input type="text" required name="firstname" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Lastname</label>
+                                <input type="text" required name="lastname" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Address Line 1</label>
+                                <input type="text" required name="line1" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Address Line 2</label>
+                                <input type="text" name="line2" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Address Line 3</label>
+                                <input type="text" name="line3" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>City</label>
+                                <input type="text" required name="city" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Zip/Postcode</label>
+                                <input type="text" required name="zipOrPostcode" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Country/Province</label>
+                                <input type="text" required name="countryProvince" class="form-control">
+                            </div>
+                            <div class="form-group row">
+                                <label>Country</label>
+                                <input type="text" required name="country" class="form-control">
+                            </div>
+                            <input type="hidden" name="userId" th:value="${user?.id}">
+                            <input type="submit" value="Add Shippingaddress" class="btn btn-secondary mt-2">
+                        </form>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/user/shippingAddress/delete.post}" method="post">
+                            <div class="form-group row">
+                                <select name="addressId" required class="form-control">
+                                    <div th:each="shippingAddress : ${user?.shippingAddresses}">
+                                        <div th:if="${shippingAddress?.addressId} != ${user?.defaultShippingAddress?.addressId}">
+                                            <option th:value="${shippingAddress?.addressId}" th:text="${shippingAddress?.getDisplay()}"></option>
+                                        </div>
+                                    </div>
+                                </select>
+                            </div>
+                            <input type="hidden" name="userId" th:value="${user?.id}">
+                            <input type="submit" value="Delete Shippingaddress" class="btn btn-danger">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="back()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="body">
+            <th:block layout:fragment="content" >
+                <!-- body goes here -->
+            </th:block>
+        </div>
+        <!--<div class="footer">
+            <footer>
+                &lt;!&ndash;<p>&copy; 2021 Marian Vonsien</p>&ndash;&gt;
+                <p>2021 Marian Vonsien</p>
+            </footer>
+        </div>-->
+    <script>
+        function edit() {
+            document.getElementById('username').readOnly = false;
+            document.getElementById('firstname').readOnly = false;
+            document.getElementById('lastname').readOnly = false;
+            document.getElementById('email').readOnly = false;
+            document.getElementById('img').readOnly = false;
+            document.getElementById('edit').style.display = "none";
+            document.getElementById('submit').style.display = "inline-block";
+        }
+        function submit() {
+            document.getElementById('username').readOnly = true;
+            document.getElementById('firstname').readOnly = true;
+            document.getElementById('lastname').readOnly = true;
+            document.getElementById('email').readOnly = true;
+            document.getElementById('img').readOnly = true;
+            document.getElementById('edit').style.display = "inline-block";
+            document.getElementById('submit').style.display = "none";
+        }
+        function back (){
+            document.getElementById('username').readOnly = true;
+            document.getElementById('firstname').readOnly = true;
+            document.getElementById('lastname').readOnly = true;
+            document.getElementById('email').readOnly = true;
+            document.getElementById('img').readOnly = true;
+            document.getElementById('edit').style.display = "inline-block";
+            document.getElementById('submit').style.display = "none";
+
+        }
+    </script>
+    </body>
+</html>

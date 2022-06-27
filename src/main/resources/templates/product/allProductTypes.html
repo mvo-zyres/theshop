@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+<head>
+    <title>Shop Admin Interface | TheShop</title>
+</head>
+<body layout:fragment="contentt" th:remove="tag">
+<div class="container-fluid">
+    <h1>All product types</h1>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Type</th>
+            <th scope="col">Shipping Required</th>
+        </tr>
+        </thead>
+        <tbody class="mn">
+        <tr th:if="${productTypes.empty}">
+            <td colspan="4"> No product type available</td>
+        </tr>
+        <tr th:each="productType : ${productTypes}">
+            <td><span th:text="${productType?.id}"> ID </span></td>
+            <td><span th:text="${productType?.type}"> OrderNumber </span></td>
+            <td><span th:text="${productType?.shippingRequired}"> Shipping </span></td>
+            <td><span><a th:href="'/management/productType/detail?id=' + ${productType?.id}" class="btn btn-primary">Details</a></span></td>
+            <td><span><a th:href="'/management/productType/delete?id=' + ${productType?.id}" class="btn btn-primary">Delete</a></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

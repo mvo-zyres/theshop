@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+  <head>
+    <title>Recharge credits | TheShop</title>
+  </head>
+  <body layout:fragment="content" th:remove="tag">
+    <div class="container-sm">
+      <h3 th:text="'Current amount of credits: '"></h3><h3><strong th:text="${user?.credits}"></strong></h3>
+      <form th:action="@{/credits/recharge.post}" method="post" class="mt-4">
+        <div class="form-group row">
+          <input type="number" class="form-control" min="1" max="10000" value="0" id="creditsInput" name="credits" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-4 w-100">Recharge</button>
+      </form>
+    </div>
+  </body>
+</html>

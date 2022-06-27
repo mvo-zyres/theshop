@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+
+<head>
+    <title>Management</title>
+</head>
+<body layout:fragment="contentt" th:remove="tag">
+    <div class="container-sm">
+        <h1 class="mt-10">Management!</h1>
+        <div sec:authorize="hasAuthority('AUTHORITYMANAGEMENT_PRIVILEGE')">
+            <h3 class="mt-4">Authorities</h3>
+            <a th:href="@{/authorities/privilege/all}" class="btn btn-primary">All privileges</a>
+            <a th:href="@{/authorities/role/all}" class="btn btn-primary">All roles</a>
+        </div>
+        <div sec:authorize="hasAuthority('USERMANAGEMENT_PRIVILEGE')">
+            <h3 class="mt-4">Users</h3>
+            <a th:href="@{/user/all}" class="btn btn-primary">All current users</a>
+        </div>
+        <div sec:authorize="hasAuthority('STOREMANAGEMENT_PRIVILEGE')">
+            <h3 class="mt-4">Stores</h3>
+            <a th:href="@{/management/store/all}" class="btn btn-primary">All stores</a>
+            <h3 class="mt-4">Categories</h3>
+            <a th:href="@{/management/category/all}" class="btn btn-primary">All categories</a>
+            <h3 class="mt-4">Products</h3>
+            <a th:href="@{/management/product/all}" class="btn btn-primary">All products</a><a th:href="@{/management/productType/all}" class="btn btn-primary">All product types</a>
+            <h3 class="mt-4">Orders</h3>
+            <a th:href="@{/management/order/all}" class="btn btn-primary">All orders</a>
+        </div>
+    </div>
+</body>
+</html>

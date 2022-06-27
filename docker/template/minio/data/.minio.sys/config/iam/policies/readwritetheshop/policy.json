@@ -1,0 +1,1 @@
+{"ID":"Policy1631193115563","Version":"2012-10-17","Statement":[{"Sid":"Stmt1631193102606","Effect":"Allow","Action":["s3:*"],"Resource":["arn:aws:s3:::theshop/*"]}]}

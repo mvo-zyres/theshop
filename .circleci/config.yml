@@ -1,0 +1,67 @@
+version: 2
+jobs:
+  dockerInit:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: Install Docker Compose
+          environment:
+            COMPOSE_VERSION: '1.29.2'
+          command: |
+            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - setup_remote_docker
+  build:
+    docker:
+      - image: circleci/openjdk:11-jdk
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: ./gradlew build -x test
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build
+  deploy:
+    docker:
+      - image: circleci/openjdk:11-jdk
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: docker deploy
+          environment:
+            IMAGE_NAME: mv0zyres/theshop1
+          command: |
+            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+            docker build -t $IMAGE_NAME:latest .
+            docker build -t $IMAGE_NAME:$CIRCLE_SHA1 .
+            docker push $IMAGE_NAME:latest
+            docker push $IMAGE_NAME:$CIRCLE_SHA1
+  runCompose:
+    docker:
+      - image: circleci/openjdk:11-jdk
+    steps:
+      - setup_remote_docker
+      - run:
+          name: Docker Compose
+          command: |
+            cd ~/project
+            ls -l
+            docker-compose up -d
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+    - dockerInit
+    - build:
+        requires:
+          - dockerInit
+    - deploy:
+        requires:
+          - build
+    

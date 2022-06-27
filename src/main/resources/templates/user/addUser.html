@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+    <head>
+        <title>Add a new User</title>
+    </head>
+    <body layout:fragment="contentt" th:remove="tag">
+        <br><br><br>
+        <div class="container">
+            <h2>Add a new User</h2>
+            <br>
+            <form method="post" th:action="@{/user/addAddress}">
+                <div class="form-group row">
+                    <label for="username">Username</label>
+                    <input type="text" name="name" minlength="2" maxlength="16" id="username" class="form-control" required>
+                </div>
+                <div class="form-group row">
+                    <label for="firstname">Firstname</label>
+                    <input type="text" name="firstname" minlength="2" maxlength="20" id="firstname" class="form-control" required>
+                </div>
+                <div class="form-group row">
+                    <label for="lastname">Lastname</label>
+                    <input type="text" name="lastname" minlength="2" maxlength="20" id="lastname" class="form-control" required>
+                </div>
+                <div class="form-group row">
+                    <label for="email">E-Mail</label>
+                    <input type="email" name="email"  id="email" class="form-control" required>
+                </div>
+                <div class="form-group row">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group row">
+                    <label for="img">Image</label>
+                    <input type="url" id="img" name="img" class="form-control" required>
+                </div>
+                <div class="form-group row">
+                    <label for="role">Role</label>
+                    <select id="role" name="roleId" class="form-control" required>
+                        <option value="" disabled selected hidden>--Please Select--</option>
+                        <option th:each="role : ${roles}" th:text="${role?.name}" th:value="${role?.id}"></option>
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label for="enabled">Enabled</label>
+                    <select id="enabled" name="enabled" class="form-control" required>
+                        <option value="" disabled selected hidden>--Please Select--</option>
+                        <option th:text="'TRUE'" th:value="true"></option>
+                        <option th:text="'FALSE'" th:value="false"></option>
+                    </select>
+                </div>
+                <br>
+                <input type="submit" class="btn btn-primary" value="Next">
+            </form>
+        </div>
+    </body>
+</html>

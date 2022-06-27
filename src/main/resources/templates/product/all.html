@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+    <head>
+        <title>Products | TheShop</title>
+    </head>
+    <body layout:fragment="content" th:remove="tag">
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-6 border border-5 rounded bg-info" th:each="product : ${products}">
+                <div class="row">
+                    <a class="fs-3 btn btn-primary" th:href="@{/product(id=${product.id})}" th:text="${product.name}"></a>
+                </div>
+                <div class="row">
+                    <div th:attr="id=${'imageslider'+product?.id}" class="carousel slide h-100" data-bs-ride="carousel">
+                        <div class="carousel-inner h-100">
+                            <div class="carousel-item active h-100">
+                                <img class="img-fluid d-block" style="max-height: 100%; max-width: 100%; width: auto; height: auto; margin-left: auto; margin-right: auto" th:src="${MinioURL}+${product.img}+'.png'" alt="Product Main image">
+                            </div>
+                            <th:block th:each="image : ${product.images}">
+                                <div class="carousel-item h-100">
+                                    <img class="img-fluid d-block w-100" style="max-height: 100%; max-width: 100%; width: auto; height: auto; margin-left: auto; margin-right: auto" th:src="${MinioURL}+${image}+'.png'" alt="Product image">
+                                </div>
+                            </th:block>
+                        </div>
+                        <button class="carousel-control-prev" type="button" th:attr="data-bs-target=${'#imageslider'+product?.id}" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" th:attr="data-bs-target=${'#imageslider'+product?.id}"  data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row ">
+                    <p class="fs-2" th:text="${product.price} +' credits'"></p>
+                </div>
+            </div>
+            <div class="col" th:if="${products.empty}">
+                <h2 th:text="${emptyMsg}"></h2>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

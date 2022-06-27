@@ -1,0 +1,307 @@
+@startuml
+class User {
+-user_Id:UUID
+-userName:String
+-firstName:String
+-lastName:String
+-email:String
+-img:String
+-password:String
+-enabled:boolean
+-role:Role
+-cart:Cart
+-orders:List<Order>
+-shippingAddress:Address
+-billingAddress:Address
+__
+..Getter..
++getUserName():String
++getFirstName():String
++getLastName():String
++getEmail():String
++getImg():String
++getPassword():String
++getEnabled():boolean
++getRole():Role
++getCart():Cart
++getOrders():List<Order>
++getShippingAddress():Address
++getBillingAddress():Address
+
+..Setter..
++setUser_Id(UUID id):void
++setUserName(String userName):void
++setFirstName(String firstName):void
++setLastName(String lastName):void
++setEmail(String email):void
++setImg(String img):void
++setPassword(String password):void
++setEnabled(boolean enabled):void
++setRole(Role role):void
++setCart(Cart cart):void
++setOrders(List<Order>):void
++setShippingAddress(Address shippingAddress):void
++setBillingAddress(Address billingAddress):void
+
+}
+
+class Role {
+-id:UUID
+-name:String
+-privileges:List<Privilege>
+__
+..Getter..
++getId():UUID
++getName():String
++getPrivileges():List<Privilege>
+
+..Setter..
++setId(UUID id):void
++setName(String name):void
++setPrivileges(List<Privilege>):void
+
+}
+
+class Privilege {
+-id:UUID
+-name:String
+__
+..Getter..
++getId():UUID
++getName():String
+
+..Setter..
++setId(UUID id):void
++setName(String name):void
+
+}
+
+class Product {
+-id:UUID
+-name:String
+-description:String
+-price:BigDecimal
+-tax:BigDecimal
+-img:String
+-tags:String
+-category:Category
+__
+..Getter..
++getId():UUID
++getName():String
++getDescription():String
++getPrice():BigDecimal
++getTax():BigDecimal
++getImg():String
++getTags():String
++getCategory():Category
+
+..Setter..
++setId(UUID id):void
++setName(String name):void
++setDescription(String description):void
++setPrice(BigDecimal price):void
++setTax(BigDecimal tax):void
++setImg(String img):void
++setTags(String tags):void
++setCategory(Category category):void
+
+}
+class Order extends Cart{
+-id:UUID
+-orderItems:List<OrderItem>
+-user:User
+-orderStatus:OrderStatus
+-shippingAddress:Address
+-billingAddress:Address
+__
+..Getter..
++getId():UUID
++getOrderItems():List<OrderItem>
++getUser():User
++getOrderStatus():OrderStatus
++getShippingAddress():Address
++getBillingAddress():Address
+
+..Setter..
++setId(UUID id):void
++setProducts(List<Product>):void
++setUser(User user):void
++setOrderStatus(OrderStatus orderStatus):void
++setShippingAddress(Address shippingAddress):void
++setBillingAddress(Address billingAddress):void
+
+}
+
+class OrderItem extends Product{
+-id:UUID
+-name:String
+-description:String
+-price:BigDecimal
+-tax:BigDecimal
+-img:String
+-referenceId:UUID
+__
+..Getter..
++getId():UUID
++getName():String
++getDescription():String
++getPrice():BigDecimal
++getTax():BigDecimal
++getImg():String
++getReferenceId():UUID
+
+..Setter..
++setId(UUID id):void
++setName(String name):void
++setDescription(String description):void
++setPrice(BigDecimal price):void
++setTax(BigDecimal tax):void
++setImg(String img):void
++setReferenceId(UUID id):void
+
+}
+
+
+class Store {
+-id:UUID
+-name:String
+-categories:List<Category>
+-carts:List<Cart>
+-tax:BigDecimal
+--
+..Getter..
++getId():UUID
++getName():String
++getCategories():List<Category>
++getCarts():List<Cart>
++getTax():BigDecimal
+
+..Setter..
++setId(UUID id):void
++setName(String name):void
++setCategories(List<Category>):void
++setCarts(List<Cart>):void
++setTax(BigDecimal tax):void
+
+}
+class Category {
+-id:UUID
+-name:String
+-products:List<Product>
+-store:Store
+-tax:BigDecimal
+--
+..Getter..
++getId():UUID
++getName():String
++getProducts():List<Product>
++getStore():Store
++getTax():BigDecimal
+
+..Setter..
++setId(UUID id):void
++setName(String name):void
++setProducts(List<Product>):void
++setStore(Store store):void
++setTax(BigDecimal tax):void
+
+}
+
+
+class Cart {
+-id:UUID
+-products:List<Product>
+-user:User
+-store:Store
+__
+..Getter..
++getId():UUID
++getProducts():List<Product>
++getUser():User
++getStore():Store
+
+..Setter..
++setId(UUID id):void
++setProducts(List<Product>):void
++setUser(User user):void
++setStore(Store store):void
+
+}
+class OrderStatus {
+-id:UUID
+-name:String
+-time:Timestamp
+-order:Order
+__
+..Getter..
++getId():UUID
++getName():String
++getTime():Timestamp
++getOrder():Order
+
+..Setter..
++setId(UUID id):void
++setName(String name):void
++setTime(Timestamp time):void
++setOrder(Order order):void
+
+}
+
+
+class Address {
+-addressId:UUID
+-user:User
+-firstName:String
+-lastName:String
+-line1:String
+-line2:String
+-line3:String
+-city:String
+-zipOrPostcode:String
+-countryProvince:String
+-country:String
+__
+..Getter..
++getAddressId():UUID
++getUser():User
++getFirstName():String
++getLastName():String
++getLine1():String
++getLine2():String
++getLine3():String
++getCity():String
++getZipOrPostcode():String
++getCountryProvince():String
++getCountry():String
+
+..Setter..
++setAddressId(UUID addressId):void
++setUser(User user):void
++setFirstName(String firstName):void
++setLastName(String lastName):void
++setLine1(String line1):void
++setLine2(String line1):void
++setLine3(String line1):void
++setCity(String city):void
++setZipOrPostcode(String zipOrPostcode):void
++setCountryProvince(String countryProvince):void
++setCountry(String country):void
+
+}
+
+Privilege o--o Role
+User o-- Role
+User --o Order
+Order --o OrderItem
+Cart -- User
+Store --o Category
+Category --o Product
+Store --o Cart
+Cart o--o Product
+Order -- OrderStatus
+User -- Address
+User -- Address
+Order o-- Address
+Order o-- Address
+@enduml

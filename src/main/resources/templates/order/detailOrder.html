@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+<head>
+    <title>Shop Admin Interface | TheShop</title>
+</head>
+<body layout:fragment="contentt" th:remove="tag">
+<div class="container">
+    <h2 th:text="'Order uuid: ' + ${order?.id}"></h2><br><br>
+    <h2 th:text="'Order number: ' + ${order?.orderNumber}"></h2><br><br>
+    <h2 th:text="'Order shipping address: ' + ${order?.billingaddress.getDisplay()}"></h2><br><br>
+    <h2 th:text="'Order billing address: ' + ${order?.shippingaddress.getDisplay()}"></h2><br><br>
+    <h3>Order products</h3><br>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
+            <th scope="col">Img</th>
+        </tr>
+        </thead>
+        <tbody class="mn">
+        <tr th:if="${order?.orderItems.empty}">
+            <td colspan="2"> No product available</td>
+        </tr>
+        <tr th:each="orderItem : ${order?.orderItems}">
+            <td><span th:text="${orderItem?.id}"> ID </span></td>
+            <td><span th:text="${orderItem?.name}"> Name </span></td>
+            <td><span th:text="${orderItem?.description}"> Description </span></td>
+            <td><span th:text="${orderItem?.price}"> Price </span></td>
+            <td><span><a th:href="'/product/detail?id=' + ${orderItem?.referenceId}" class="btn btn-primary">Details</a></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

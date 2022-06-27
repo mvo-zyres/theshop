@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+    <head>
+        <title>Shop Admin Interface | TheShop</title>
+    </head>
+    <body layout:fragment="contentt" th:remove="tag">
+        <div class="container">
+            <h2>Add a new Store</h2>
+            <br>
+            <form method="post" th:action="@{/management/store/add.post}">
+                <div class="form-group row">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" minlength="2" id="name" class="form-control">
+                </div>
+                <div class="form-group row">
+                    <label for="tax">Tax</label>
+                    <input type="text" name="tax" id="tax" class="form-control" required>
+                </div>
+                <br>
+                <input type="submit" class="btn btn-primary" value="Submit">
+            </form>
+        </div>
+    </body>
+</html>

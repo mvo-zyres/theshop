@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+    <head>
+        <title>Really???</title>
+    </head>
+    <body layout:fragment="contentt" th:remove="tag">
+        <div class="container">
+            <br><br><br>
+            <h3 th:text="'Do you really want to delete the user with ID ' + ${duser.id} + '?'"></h3>
+            <a href="/" class="btn btn-primary">No</a><br>
+            <form th:action="@{/user/delete.post}" method="post">
+                <input type="hidden" name="userId" id="userId" th:value="${duser.id}">
+                <input type="submit" value="Yes" class="btn btn-danger">
+            </form>
+        </div>
+    </body>
+</html>

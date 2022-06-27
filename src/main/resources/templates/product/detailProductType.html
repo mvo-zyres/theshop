@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+<head>
+    <title>Shop Admin Interface | TheShop</title>
+</head>
+<body layout:fragment="contentt" th:remove="tag">
+<div class="container align-content-center">
+    <h2>Edit the product type</h2>
+    <br>
+    <form method="post" th:action="@{/management/productType/edit.post}">
+        <input type="hidden" name="productTypeId" th:value="${productType?.id}">
+        <div class="form-group row">
+            <label for="name">Type / Name</label>
+            <input type="text" name="type" minlength="2" id="name" class="form-control" required th:value="${productType?.type}">
+        </div>
+        <div class="form-group row">
+            <label>Is shipping required?</label>
+            <select name="shippingRequired" class="form-control" required>
+                <option value="TRUE" th:selected="${productType?.shippingRequired} == true">Yes</option>
+                <option value="FALSE" th:selected="${productType?.shippingRequired} == false">No</option>
+            </select>
+        </div>
+        <br>
+        <input type="submit" class="btn btn-primary w-25 ms-auto me-auto" value="Submit">
+    </form>
+</div>
+</body>
+</html>

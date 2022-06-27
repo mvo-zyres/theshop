@@ -1,0 +1,43 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.onlineshop'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc:2.7.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.0'
+	implementation 'org.springframework.boot:spring-boot-starter-security:2.7.0'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.7.0'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.7.0'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.0'
+	implementation 'org.springframework.session:spring-session-core:2.7.0'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools:2.7.0'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.0'
+	testImplementation 'org.springframework.security:spring-security-test:5.7.1'
+	implementation 'org.springframework.boot:spring-boot-configuration-processor:2.7.0'
+	implementation 'org.passay:passay:1.6.1'
+	compileOnly 'org.projectlombok:lombok:1.18.24'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
+	runtimeOnly 'org.postgresql:postgresql:42.3.6'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.239'
+	implementation 'io.minio:minio:8.4.2'
+	implementation 'commons-fileupload:commons-fileupload:1.4'
+
+}
+
+test {
+	useJUnitPlatform()
+}
+
+

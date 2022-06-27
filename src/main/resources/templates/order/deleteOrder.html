@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+<head>
+    <title>Shop Admin Interface | TheShop</title>
+</head>
+<body layout:fragment="contentt" th:remove="tag">
+<div class="container">
+    <h3 th:text="'Do you really want to delete the order with ID ' + ${order?.id} + '?'"></h3>
+    <a href="/" class="btn btn-primary">No</a><br>
+    <form th:action="@{/management/order/delete.post}" method="post">
+        <input type="hidden" name="orderId" id="orderId" th:value="${order?.id}">
+        <input type="submit" value="Yes" class="btn btn-danger">
+    </form>
+</div>
+</body>
+</html>

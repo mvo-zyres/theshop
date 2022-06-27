@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{managementlayout}">
+    <head>
+        <meta charset="UTF-8">
+        <title>All current users</title>
+    </head>
+    <body layout:fragment="contentt" th:remove="tag">
+        <div class="container-fluid">
+            <h1>All current users</h1>
+            <a th:href="@{/user/add}" class="btn btn-secondary"><span>&plus;</span></a><br>
+            <table class="table table-hover">
+                <thead class="font-size22px">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Firstname</th>
+                        <th scope="col">Lastname</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Enabled</th>
+                    </tr>
+                </thead>
+                <tbody class="mn">
+                    <tr th:if="${allUsers.empty}">
+                        <td colspan="8"> No user available</td>
+                    </tr>
+                    <tr th:each="allUser : ${allUsers}">
+                        <td><span th:text="${allUser?.id}"> ID </span></td>
+                        <td><span th:text="${allUser?.username}"> Username </span></td>
+                        <td><span th:text="${allUser?.firstname}"> Firstname </span></td>
+                        <td><span th:text="${allUser?.lastname}"> Lastname </span></td>
+                        <td><span th:text="${allUser?.email}"> Email </span></td>
+                        <td><span th:text="${allUser?.img}"> Image </span></td>
+                        <td><span th:text="${allUser?.role?.name}"> Role </span></td>
+                        <td><span th:text="${allUser?.enabled}"> Enabled </span></td>
+                        <td><span><a th:href="'/user?id=' + ${allUser?.id}" class="btn btn-primary">Details</a></span></td>
+                        <td><span><a th:href="'/user/delete?id=' + ${allUser?.id}" class="btn btn-primary">Delete</a></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

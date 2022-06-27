@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+  <head>
+    <title th:text="${product.name} + ' | TheShop'"></title>
+  </head>
+  <body layout:fragment="content" th:remove="tag">
+    <div class="mt-5"></div>
+    <div class="container mt-5">
+      <div class="row mt-5 border border-5 rounded" >
+        <div class="col-md-6 border border-5">
+          <div class="row border-bottom border-5 bg-primary">
+            <p class="fs-2" ><strong th:text="${product?.name}"></strong></p>
+          </div>
+          <div class="row bg-secondary" style="height: 50vh">
+            <div th:attr="id=${'imageslider'+product?.id}" class="carousel slide h-100" data-bs-ride="carousel">
+              <div class="carousel-inner h-100">
+                <div class="carousel-item active h-100">
+                  <img class="img-fluid d-block" style="max-height: 100%; max-width: 100%; width: auto; height: auto; margin-left: auto; margin-right: auto" th:src="${MinioURL}+${product.img}+'.png'" alt="Product Main image">
+                </div>
+                <th:block th:each="image : ${product.images}">
+                  <div class="carousel-item h-100">
+                    <img class="img-fluid d-block w-100" style="max-height: 100%; max-width: 100%; width: auto; height: auto; margin-left: auto; margin-right: auto" th:src="${MinioURL}+${image}+'.png'" alt="Product image">
+                  </div>
+                </th:block>
+              </div>
+              <button class="carousel-control-prev" type="button" th:attr="data-bs-target=${'#imageslider'+product?.id}" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" th:attr="data-bs-target=${'#imageslider'+product?.id}"  data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-6 border border-5 bg-secondary">
+          <div class="row border-bottom border-5 bg-primary">
+            <p class="fs-2" ><strong th:text="${product?.price} + ' credits'"></strong></p>
+          </div>
+          <div class="row">
+            <p class="fs-6" th:text="${product?.description}"></p>
+          </div>
+          <div class="row">
+            <div class="d-grid gap-2">
+              <form th:action="@{/cart/addProduct.post}" method="post">
+                <input type="hidden" name="productId" th:value="${product?.id}">
+                <button type="submit" class="btn btn-warning btn-lg mt-4 w-100">Add to Cart</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+    <head>
+        <title th:text="'Order' + ${order.id} + ' | TheShop'"></title>
+    </head>
+    <body layout:fragment="content" th:remove="tag">
+        <br>
+        <div class="container">
+            <div class="row">
+                <h1 th:text="'Your order with order number: ' + ${order?.orderNumber} + ' from ' + ${oldestTime}"></h1>
+            </div>
+            <div class="row mt-2 mb-2">
+                <h5 th:text="'Newest orderStatus: \'' + ${newestOrderStatus?.name} + '\' on ' + ${newestTime}"></h5>
+            </div>
+            <div class="row mt-2 mb-2">
+            <h5 th:text="'Order shipping address: ' + ${order?.billingaddress.getDisplay()}"></h5>
+            <h5 th:text="'Order billing address: ' + ${order?.shippingaddress.getDisplay()}"></h5>
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <h2>Products</h2>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Tax</th>
+                    <th scope="col">Credits</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="orderItem : ${orderItems}">
+                    <td><img class="img-fluid" style="max-height: 200px; max-width: 200px;" th:src="${MinioURL}+${orderItem.img}+'.png'" alt="Product image"></td>
+                    <td><a th:if="${orderItem.referenceId != null}" th:href="'/product?id=' + ${orderItem?.referenceId}" th:text="${orderItem?.name}"> Name </a><span th:if="${orderItem.referenceId == null}" th:text="${orderItem?.name}"> Name </span></td>
+                    <td><span th:text="${orderItem?.tax} + '%'"></span></td>
+                    <td><span th:text="${orderItem?.price}"> Price </span></td>
+                </tr>
+                <tr>
+                    <td><h5>Total: </h5></td>
+                    <td></td>
+                    <td><h3 th:text="${totalPrice}"></h3></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

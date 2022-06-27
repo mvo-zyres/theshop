@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+    <title>Cart | TheShop</title>
+</head>
+<body layout:fragment="content" th:remove="tag">
+<br>
+<br>
+<br>
+<div class="container">
+    <a th:href="@{/cart/detail(id=${cart.id})}" class="btn btn-primary btn-md">Detail</a>
+</div>
+</body>
+</html>

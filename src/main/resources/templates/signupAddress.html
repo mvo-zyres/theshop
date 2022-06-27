@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="/dist/css/custom.min.css"/>
+    <script src="/dist/js/bootstrap.min.js"></script>
+</head>
+<body style="background-color: gray;">
+<div class="container-md">
+    <h2>Sign Up</h2>
+    <form th:action="@{/user/add.post}" method="post">
+            <input placeholder="Your username.." type="hidden" id="username" name="name" th:value="${data?.name}" class="form-control"/>
+            <input placeholder="Your first name.." type="hidden" id="firstname" name="firstname" th:value="${data?.firstname}" class="form-control"/>
+            <input placeholder="Your last name.." type="hidden" id="lastname" name="lastname" th:value="${data?.lastname}" class="form-control"/>
+            <input placeholder="Your email address.." type="hidden" id="email" name="email" th:value="${data?.email}" class="form-control"/>
+            <input placeholder="Your password.." type="hidden" id="password" name="password" th:value="${data?.password}" class="form-control"/>
+            <input placeholder="Your profile image.." type="hidden" id="img" name="img" class="form-control"  th:value="${data?.img}">
+        <div class="form-group row">
+            <label for="Line1">Address Line 1</label>
+            <input type="text" placeholder="" required id="Line1" name="addressLine1" class="form-control">
+        </div>
+        <div class="form-group row">
+            <label for="Line2">Address Line 2</label>
+            <input type="text" placeholder="" id="Line2" name="addressLine2" class="form-control">
+        </div>
+        <div class="form-group row">
+            <label for="Line3">Address Line 3</label>
+            <input type="text" placeholder="" id="Line3" name="addressLine3" class="form-control">
+        </div>
+        <div class="form-group row">
+            <label for="city">City</label>
+            <input type="text" placeholder="" required id="city" name="addressCity" class="form-control">
+        </div>
+        <div class="form-group row">
+            <label for="zipOrPostcode">Zip/Postcode</label>
+            <input type="text" placeholder="" required id="zipOrPostcode" name="addressZipOrPostcode" class="form-control">
+        </div>
+        <div class="form-group row">
+            <label for="countryProvince">Country/Province</label>
+            <input type="text" placeholder="" required id="countryProvince" name="addressCountryProvince" class="form-control">
+        </div>
+        <div class="form-group row">
+            <label for="country">Country</label>
+            <input type="text" placeholder="" required id="country" name="addressCountry" class="form-control">
+        </div>
+        <div class="d-flex flex-column align-items-center">
+            <br>
+            <div class="form-group row w-25">
+                <input type="hidden" name="roleId" th:value="${data?.roleId}">
+                <button type="submit" class="btn btn-primary">Sign up</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
