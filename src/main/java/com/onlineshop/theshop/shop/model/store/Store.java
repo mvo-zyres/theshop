@@ -16,7 +16,7 @@ public class Store implements Serializable {
     public Store(UUID id, String name, BigDecimal tax) {
         if(tax == null)
             tax = new BigDecimal(0);
-        this.tax = tax.divide(new BigDecimal(100)).add(new BigDecimal(1));
+        this.tax = tax;
         this.id = id;
         this.name = name;
     }
@@ -24,7 +24,7 @@ public class Store implements Serializable {
     public Store(String name, BigDecimal tax) {
         if(tax == null)
             tax = new BigDecimal(0);
-        this.tax = tax.divide(new BigDecimal(100)).add(new BigDecimal(1));
+        this.tax = tax;
         this.id = UUID.randomUUID();
         this.name = name;
     }

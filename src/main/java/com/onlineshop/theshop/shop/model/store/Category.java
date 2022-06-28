@@ -17,7 +17,7 @@ public class Category implements Serializable {
     public Category(UUID id, String name, String url, BigDecimal tax) {
         if(tax == null)
             tax = new BigDecimal(0);
-        this.tax = tax.divide(new BigDecimal(100)).add(new BigDecimal(1));
+        this.tax = tax;
         this.name = name;
         this.id = id;
         this.url = url;
@@ -25,7 +25,7 @@ public class Category implements Serializable {
     public Category(String name, Store store, String url, BigDecimal tax) {
         if(tax == null)
             tax = new BigDecimal(0);
-        this.tax = tax.divide(new BigDecimal(100)).add(new BigDecimal(1));
+        this.tax = tax;
         this.name = name;
         this.store = store;
         this.id = UUID.randomUUID();
