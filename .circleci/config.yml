@@ -20,7 +20,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: ./gradlew build -x test
+          command: ./gradlew build
       - persist_to_workspace:
           root: .
           paths:
