@@ -7,7 +7,7 @@ services:
       - theshop_database
       - theshop_minio
       - theshop_typesense
-    image: mv0zyres/theshop:latest
+    image: mv0zyres/theshop1:latest
     ports:
       - "8443:8443"
     environment:
